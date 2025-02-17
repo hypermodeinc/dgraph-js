@@ -24,10 +24,6 @@ yarn-error.log
 # Coverage
 coverage/
 
-# VS Code
-.vscode/
-!.vscode/tasks.js
-
 # JetBrains IDEs
 .idea/
 /*.iml
