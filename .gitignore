@@ -34,7 +34,7 @@ Thumbs.db
 
 # Dgraph
 
-
+dgraph-local-data/
 tls/
 p/
 w/
