@@ -125,8 +125,7 @@ async function queryData(dgraphClient) {
 }
 
 async function main() {
-  const dgraphClientStub = newClientStub()
-  const dgraphClient = newClient(dgraphClientStub)
+  const { dgraphClient, closeStub } = dgraph.Open()
   await dropAll(dgraphClient)
   await setSchema(dgraphClient)
   await createData(dgraphClient)
@@ -137,7 +136,7 @@ async function main() {
   await queryData(dgraphClient)
 
   // Close the client stub.
-  dgraphClientStub.close()
+  closeStub()
 }
 
 main()

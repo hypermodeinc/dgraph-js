@@ -4,8 +4,6 @@
  */
 
 import * as grpc from "@grpc/grpc-js"
-import * as url from "url"
-import * as querystring from "querystring"
 
 import * as messages from "../generated/api_pb"
 
@@ -159,9 +157,10 @@ function addBearerTokenToCredentials(
   return grpc.credentials.combineChannelCredentials(baseCreds, metaCreds)
 }
 
-export async function Open(connStr: string): Promise<DgraphClient> {
-  const parsedUrl = url.parse(connStr)
-
+export async function Open(
+  connStr: string,
+): Promise<{ client: DgraphClient; closeStub: () => void }> {
+  const parsedUrl = new URL(connStr)
   if (parsedUrl.protocol !== dgraphScheme) {
     throw new Error("Invalid scheme: must start with dgraph://")
   }
@@ -175,11 +174,11 @@ export async function Open(connStr: string): Promise<DgraphClient> {
     throw new Error("Invalid connection string: port required")
   }
 
+  // Parse query parameters using searchParams
   const queryParams: Record<string, string> = {}
-  if (parsedUrl.query) {
-    const parsedQuery = querystring.parse(parsedUrl.query)
-    Object.entries(parsedQuery).forEach(([key, value]) => {
-      queryParams[key] = Array.isArray(value) ? value[0] : value
+  if (parsedUrl.searchParams) {
+    parsedUrl.searchParams.forEach((value, key) => {
+      queryParams[key] = value
     })
   }
 
@@ -218,18 +217,20 @@ export async function Open(connStr: string): Promise<DgraphClient> {
 
   const clientStub = new DgraphClientStub(`${host}:${port}`, credentials)
 
-  if (parsedUrl.auth) {
-    const [username, password] = parsedUrl.auth.split(":")
-    if (!password) {
+  if (parsedUrl.username != "") {
+    if (parsedUrl.password === "") {
       throw new Error("Invalid connection string: password required when username is provided")
-    }
-
-    try {
-      await clientStub.login(username, password)
-    } catch (err) {
-      throw new Error(`Failed to sign in user: ${err.message}`)
+    } else {
+      try {
+        await clientStub.login(parsedUrl.username, parsedUrl.password)
+      } catch (err) {
+        throw new Error(`Failed to sign in user: ${err.message}`)
+      }
     }
   }
 
-  return new DgraphClient(clientStub)
+  return {
+    client: new DgraphClient(clientStub),
+    closeStub: () => clientStub.close(),
+  }
 }

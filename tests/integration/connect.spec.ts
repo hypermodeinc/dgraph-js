@@ -10,7 +10,7 @@ import { SERVER_ADDR } from "../helper"
 describe("open function", () => {
   it("should connect with authentication and execute a query", async () => {
     const url = `dgraph://groot:password@${SERVER_ADDR}`
-    const client = await dgraph.Open(url)
+    const { client, closeStub } = await dgraph.Open(url)
     const query = `
       {
         me(func: uid(1)) {
@@ -25,6 +25,7 @@ describe("open function", () => {
     expect(response).not.toBeNull()
     const parsedJson = response.getJson() // No need for JSON.parse
     expect(parsedJson.me[0].uid).toBe("0x1")
+    closeStub()
   })
 
   it("should throw an error for invalid scheme", async () => {
@@ -35,14 +36,12 @@ describe("open function", () => {
   })
 
   it("should throw an error for missing hostname", async () => {
-    const invalidUrl = `dgraph://:${SERVER_ADDR.split(":")[1]}`
-    await expect(async () => dgraph.Open(invalidUrl)).rejects.toThrowError(
-      "Invalid connection string: hostname required",
-    )
+    const invalidUrl = `dgraph://:9081`
+    await expect(async () => dgraph.Open(invalidUrl)).rejects.toThrowError("Invalid URL")
   })
 
   it("should throw an error for missing port", async () => {
-    const invalidUrl = `dgraph://${SERVER_ADDR.split(":")[0]}`
+    const invalidUrl = `dgraph://localhost`
     await expect(async () => await dgraph.Open(invalidUrl)).rejects.toThrowError(
       "Invalid connection string: port required",
     )
