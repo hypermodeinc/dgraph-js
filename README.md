@@ -67,22 +67,24 @@ Valid connection string args:
 | bearertoken | \<token\>                       | an access token                                                                                                                                               |
 | sslmode     | disable \| require \| verify-ca | TLS option, the default is `disable`. If `verify-ca` is set, the TLS certificate configured in the Dgraph cluster must be from a valid certificate authority. |
 
-## Some example connection strings: | Value | Explanation | |
+## Some example connection strings
 
-| ----------------------------------------------------------------------------------- | |
-dgraph://localhost:9080 | Connect to localhost, no ACL, no TLS | |
-dgraph://sally:supersecret@dg.example.com:443?sslmode=verify-ca | Connect to remote server, use ACL
-and require TLS and a valid certificate from a CA | |
-dgraph://foo-bar.grpc.us-west-2.aws.cloud.dgraph.io:443?sslmode=verify-ca&apikey=\<your-api-connection-key\>
-| Connect to a Dgraph Cloud cluster | |
-dgraph://foo-bar.grpc.hypermode.com?sslmode=verify-ca&bearertoken=\<some access token\> | Connect to
-a Dgraph cluster protected by a secure gateway |
+| Value                                                                                                        | Explanation                                                                         |
+| ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| dgraph://localhost:9080                                                                                      | Connect to localhost, no ACL, no TLS                                                |
+| dgraph://sally:supersecret@dg.example.com:443?sslmode=verify-ca                                              | Connect to remote server, use ACL and require TLS and a valid certificate from a CA |
+| dgraph://foo-bar.grpc.us-west-2.aws.cloud.dgraph.io:443?sslmode=verify-ca&apikey=\<your-api-connection-key\> | Connect to a Dgraph Cloud cluster                                                   |
+| dgraph://foo-bar.grpc.hypermode.com?sslmode=verify-ca&bearertoken=\<some access token\>                      | Connect to a Dgraph cluster protected by a secure gateway                           |
 
-Using the `Open` function with a connection string: // open a connection to an ACL-enabled, non-TLS
-cluster and login as groot const {client,closeStub} =
-dgraph.Open("dgraph://groot:password@localhost:8090")
+Using the `Open` function with a connection string:
 
-````
+```js
+// open a connection to an ACL-enabled, non-TLS cluster and login as groot
+const { client, closeStub } = dgraph.Open("dgraph://groot:password@localhost:8090")
+// Use the client
+
+closeStub()
+```
 
 To facilitate debugging, [debug mode](#debug-mode) can be enabled for a client.
 
@@ -97,7 +99,7 @@ In order to create a JavaScript client, and make the client login into namespace
 ```js
 const dgraphClientStub = new dgraph.DgraphClientStub("localhost:9080")
 await dgraphClientStub.loginIntoNamespace("groot", "password", 123) // where 123 is the namespaceId
-````
+```
 
 In the example above, the client logs into namespace `123` using username `groot` and password
 `password`. Once logged in, the client can perform all the operations allowed to the `groot` user of
