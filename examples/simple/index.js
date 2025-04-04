@@ -1,14 +1,4 @@
-const dgraph = require("dgraph-js")
-
-// Create a client stub.
-function newClientStub() {
-  return new dgraph.DgraphClientStub("localhost:9080")
-}
-
-// Create a client.
-function newClient(clientStub) {
-  return new dgraph.DgraphClient(clientStub)
-}
+import * as dgraph from "dgraph-js"
 
 // Drop All - discard all data, schema and start from a clean slate.
 async function dropAll(dgraphClient) {
@@ -125,8 +115,7 @@ async function queryData(dgraphClient) {
 }
 
 async function main() {
-  const dgraphClientStub = newClientStub()
-  const dgraphClient = newClient(dgraphClientStub)
+  const dgraphClient = await dgraph.open("dgraph://groot:password@localhost:9080")
   await dropAll(dgraphClient)
   await setSchema(dgraphClient)
   await createData(dgraphClient)
@@ -137,7 +126,7 @@ async function main() {
   await queryData(dgraphClient)
 
   // Close the client stub.
-  dgraphClientStub.close()
+  dgraphClient.close()
 }
 
 main()

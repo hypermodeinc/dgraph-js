@@ -13,6 +13,11 @@ import { Txn, TxnOptions } from "./txn"
 import * as types from "./types"
 import { isUnauthenticatedError, stringifyMessage } from "./util"
 
+const dgraphScheme = "dgraph:"
+const sslModeDisable = "disable"
+const sslModeRequire = "require"
+const sslModeVerifyCA = "verify-ca"
+
 /**
  * Client is a transaction aware client to a set of Dgraph server instances.
  */
@@ -97,6 +102,17 @@ export class DgraphClient {
   public anyClient(): DgraphClientStub {
     return this.clients[Math.floor(Math.random() * this.clients.length)]
   }
+
+  public close(): void {
+    this.clients.forEach((clientStub) => {
+      try {
+        clientStub.close() // Call the close method on each client stub
+        console.log("Closed client stub successfully")
+      } catch (error) {
+        console.error("Failed to close client stub:", error)
+      }
+    })
+  }
 }
 
 // isJwtExpired returns true if the error indicates that the jwt has expired.
@@ -126,4 +142,101 @@ export function deleteEdges(mu: types.Mutation, uid: string, ...predicates: stri
 
     mu.addDel(nquad)
   }
+}
+
+function addApiKeyToCredentials(
+  baseCreds: grpc.ChannelCredentials,
+  apiKey: string,
+): grpc.ChannelCredentials {
+  const metaCreds = grpc.credentials.createFromMetadataGenerator((_, callback) => {
+    const metadata = new grpc.Metadata()
+    metadata.add("authorization", apiKey)
+    callback(null, metadata)
+  })
+  return grpc.credentials.combineChannelCredentials(baseCreds, metaCreds)
+}
+
+function addBearerTokenToCredentials(
+  baseCreds: grpc.ChannelCredentials,
+  bearerToken: string,
+): grpc.ChannelCredentials {
+  const metaCreds = grpc.credentials.createFromMetadataGenerator((_, callback) => {
+    const metadata = new grpc.Metadata()
+    metadata.add("Authorization", `Bearer ${bearerToken}`)
+    callback(null, metadata)
+  })
+  return grpc.credentials.combineChannelCredentials(baseCreds, metaCreds)
+}
+
+export async function open(connStr: string): Promise<DgraphClient> {
+  const parsedUrl = new URL(connStr)
+  if (parsedUrl.protocol !== dgraphScheme) {
+    throw new Error("Invalid scheme: must start with dgraph://")
+  }
+
+  const host = parsedUrl.hostname
+  const port = parsedUrl.port
+  if (!host) {
+    throw new Error("Invalid connection string: hostname required")
+  }
+  if (!port) {
+    throw new Error("Invalid connection string: port required")
+  }
+
+  // Parse query parameters using searchParams
+  const queryParams: Record<string, string> = {}
+  if (parsedUrl.searchParams) {
+    parsedUrl.searchParams.forEach((value, key) => {
+      queryParams[key] = value
+    })
+  }
+
+  if (queryParams.apikey && queryParams.bearertoken) {
+    throw new Error("Both apikey and bearertoken cannot be provided")
+  }
+
+  let sslMode = queryParams.sslmode
+  if (sslMode === undefined) {
+    sslMode = sslModeDisable
+  }
+
+  let credentials
+  switch (sslMode) {
+    case sslModeDisable:
+      credentials = grpc.credentials.createInsecure()
+      break
+    case sslModeRequire:
+      credentials = grpc.credentials.createSsl(null, null, null, {
+        checkServerIdentity: () => undefined, // Skip certificate verification
+      })
+      break
+    case sslModeVerifyCA:
+      credentials = grpc.credentials.createSsl() // Use system CA for verification
+      break
+    default:
+      throw new Error(`Invalid SSL mode: ${sslMode} (must be one of disable, require, verify-ca)`)
+  }
+
+  // Add API key or Bearer token to credentials if provided
+  if (queryParams.apikey) {
+    credentials = addApiKeyToCredentials(credentials, queryParams.apikey)
+  } else if (queryParams.bearertoken) {
+    credentials = addBearerTokenToCredentials(credentials, queryParams.bearertoken)
+  }
+
+  const clientStub = new DgraphClientStub(`${host}:${port}`, credentials)
+
+  if (parsedUrl.username != "") {
+    if (parsedUrl.password === "") {
+      throw new Error("Invalid connection string: password required when username is provided")
+    } else {
+      try {
+        await clientStub.login(parsedUrl.username, parsedUrl.password)
+      } catch (err) {
+        throw new Error(`Failed to sign in user: ${err.message}`)
+      }
+    }
+  }
+
+  return new DgraphClient(clientStub)
 }

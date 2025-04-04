@@ -17,6 +17,10 @@ export function clientStubFromSlashGraphQLEndpoint(graphqlEndpoint: string, apiK
   return clientStubFromCloudEndpoint(graphqlEndpoint, apiKey)
 }
 
+/**
+ * @deprecated
+ *     Please use {@link Open} instead.
+ */
 export function clientStubFromCloudEndpoint(graphqlEndpoint: string, apiKey: string) {
   const url = new Url(graphqlEndpoint)
   const urlParts = url.host.split(".")

@@ -51,23 +51,40 @@ of using the Dgraph JavaScript client. Follow the instructions in the README of 
 
 ### Creating a Client
 
-A `DgraphClient` object can be initialised by passing it a list of `DgraphClientStub` clients as
-variadic arguments. Connecting to multiple Dgraph servers in the same cluster allows for better
-distribution of workload.
+#### Connection Strings
 
-The following code snippet shows just one connection.
+The dgraph-js supports connecting to a Dgraph cluster using connection strings. Dgraph connections
+strings take the form `dgraph://{username:password@}host:port?args`.
+
+`username` and `password` are optional. If username is provided, a password must also be present. If
+supplied, these credentials are used to log into a Dgraph cluster through the ACL mechanism.
+
+Valid connection string args:
+
+| Arg         | Value                           | Description                                                                                                                                                   |
+| ----------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| apikey      | \<key\>                         | a Dgraph Cloud API Key                                                                                                                                        |
+| bearertoken | \<token\>                       | an access token                                                                                                                                               |
+| sslmode     | disable \| require \| verify-ca | TLS option, the default is `disable`. If `verify-ca` is set, the TLS certificate configured in the Dgraph cluster must be from a valid certificate authority. |
+
+## Some example connection strings
+
+| Value                                                                                                        | Explanation                                                                         |
+| ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| dgraph://localhost:9080                                                                                      | Connect to localhost, no ACL, no TLS                                                |
+| dgraph://sally:supersecret@dg.example.com:443?sslmode=verify-ca                                              | Connect to remote server, use ACL and require TLS and a valid certificate from a CA |
+| dgraph://foo-bar.grpc.us-west-2.aws.cloud.dgraph.io:443?sslmode=verify-ca&apikey=\<your-api-connection-key\> | Connect to a Dgraph Cloud cluster                                                   |
+| dgraph://foo-bar.grpc.hypermode.com?sslmode=verify-ca&bearertoken=\<some access token\>                      | Connect to a Dgraph cluster protected by a secure gateway                           |
+
+Using the `open` function with a connection string:
 
 ```js
-const dgraph = require("dgraph-js")
-const grpc = require("@grpc/grpc-js")
+// open a connection to an ACL-enabled, non-TLS cluster and login as groot
+const client = await dgraph.open("dgraph://groot:password@localhost:8090")
+// Use the client
 
-const clientStub = new dgraph.DgraphClientStub(
-  // addr: optional, default: "localhost:9080"
-  "localhost:9080",
-  // credentials: optional, default: grpc.credentials.createInsecure()
-  grpc.credentials.createInsecure(),
-)
-const dgraphClient = new dgraph.DgraphClient(clientStub)
+// this will close all the client stubs
+client.close()
 ```
 
 To facilitate debugging, [debug mode](#debug-mode) can be enabled for a client.
@@ -88,25 +105,6 @@ await dgraphClientStub.loginIntoNamespace("groot", "password", 123) // where 123
 In the example above, the client logs into namespace `123` using username `groot` and password
 `password`. Once logged in, the client can perform all the operations allowed to the `groot` user of
 namespace `123`.
-
-### Creating a Client for Dgraph Cloud Endpoint
-
-If you want to connect to Dgraph running on your [Dgraph Cloud](https://cloud.dgraph.io) instance,
-then all you need is the URL of your Dgraph Cloud endpoint and the API key. You can get a client
-using them as follows:
-
-```js
-const dgraph = require("dgraph-js")
-
-const clientStub = dgraph.clientStubFromCloudEndpoint(
-  "https://frozen-mango.eu-central-1.aws.cloud.dgraph.io/graphql",
-  "<api-key>",
-)
-const dgraphClient = new dgraph.DgraphClient(clientStub)
-```
-
-**Note:** the `clientStubFromSlashGraphQLEndpoint` method is deprecated and will be removed in the
-next release. Instead use `clientStubFromCloudEndpoint` method.
 
 ### Altering the Database
 
@@ -376,27 +374,21 @@ try {
 
 ### Cleanup Resources
 
-To cleanup resources, you have to call `DgraphClientStub#close()` individually for all the instances
-of `DgraphClientStub`.
+To cleanup resources, you have to call `close()`.
 
 ```js
 const SERVER_ADDR = "localhost:9080"
 const SERVER_CREDENTIALS = grpc.credentials.createInsecure()
 
-// Create instances of DgraphClientStub.
-const stub1 = new dgraph.DgraphClientStub(SERVER_ADDR, SERVER_CREDENTIALS)
-const stub2 = new dgraph.DgraphClientStub(SERVER_ADDR, SERVER_CREDENTIALS)
-
-// Create an instance of DgraphClient.
-const dgraphClient = new dgraph.DgraphClient(stub1, stub2)
+// Create instances of DgraphClient.
+const client = await dgraph.open("dgraph://groot:password@${SERVER_ADDR}")
 
 // ...
 // Use dgraphClient
 // ...
 
-// Cleanup resources by closing all client stubs.
-stub1.close()
-stub2.close()
+// Cleanup resources by closing client stubs.
+client.close()
 ```
 
 ### Debug mode

@@ -5,25 +5,25 @@
 
 import * as messages from "../generated/api_pb"
 export declare class Payload extends messages.Payload {
-  getData(): string | Uint8Array
+  getData(): any
   getData_asB64(): string
   getData_asU8(): Uint8Array
   setData(value: any): void
 }
 export declare function createPayload(oldPayload: messages.Payload): Payload
 export declare class Response extends messages.Response {
-  getJson(): string | Uint8Array
+  getJson(): any
   getJson_asB64(): string
   getJson_asU8(): Uint8Array
   setJson(value: any): void
 }
 export declare function createResponse(oldResponse: messages.Response): Response
 export declare class Mutation extends messages.Mutation {
-  getSetJson(): string | Uint8Array
+  getSetJson(): any
   getSetJson_asB64(): string
   getSetJson_asU8(): Uint8Array
   setSetJson(value: any): void
-  getDeleteJson(): string | Uint8Array
+  getDeleteJson(): any
   getDeleteJson_asB64(): string
   getDeleteJson_asU8(): Uint8Array
   setDeleteJson(value: any): void
