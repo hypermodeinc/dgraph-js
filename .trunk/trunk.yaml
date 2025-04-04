@@ -27,7 +27,6 @@ lint:
         - generated/**
   enabled:
     - trivy@0.59.1
-    - eslint@9.19.0
     - actionlint@1.7.7
     - checkov@3.2.365
     - git-diff-check
