@@ -102,6 +102,17 @@ export class DgraphClient {
   public anyClient(): DgraphClientStub {
     return this.clients[Math.floor(Math.random() * this.clients.length)]
   }
+
+  public close(): void {
+    this.clients.forEach((clientStub) => {
+      try {
+        clientStub.close() // Call the close method on each client stub
+        console.log("Closed client stub successfully")
+      } catch (error) {
+        console.error("Failed to close client stub:", error)
+      }
+    })
+  }
 }
 
 // isJwtExpired returns true if the error indicates that the jwt has expired.
@@ -157,9 +168,7 @@ function addBearerTokenToCredentials(
   return grpc.credentials.combineChannelCredentials(baseCreds, metaCreds)
 }
 
-export async function Open(
-  connStr: string,
-): Promise<{ client: DgraphClient; closeStub: () => void }> {
+export async function open(connStr: string): Promise<DgraphClient> {
   const parsedUrl = new URL(connStr)
   if (parsedUrl.protocol !== dgraphScheme) {
     throw new Error("Invalid scheme: must start with dgraph://")
@@ -229,8 +238,5 @@ export async function Open(
     }
   }
 
-  return {
-    client: new DgraphClient(clientStub),
-    closeStub: () => clientStub.close(),
-  }
+  return new DgraphClient(clientStub)
 }

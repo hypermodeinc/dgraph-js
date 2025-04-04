@@ -76,14 +76,15 @@ Valid connection string args:
 | dgraph://foo-bar.grpc.us-west-2.aws.cloud.dgraph.io:443?sslmode=verify-ca&apikey=\<your-api-connection-key\> | Connect to a Dgraph Cloud cluster                                                   |
 | dgraph://foo-bar.grpc.hypermode.com?sslmode=verify-ca&bearertoken=\<some access token\>                      | Connect to a Dgraph cluster protected by a secure gateway                           |
 
-Using the `Open` function with a connection string:
+Using the `open` function with a connection string:
 
 ```js
 // open a connection to an ACL-enabled, non-TLS cluster and login as groot
-const { client, closeStub } = dgraph.Open("dgraph://groot:password@localhost:8090")
+const client = dgraph.open("dgraph://groot:password@localhost:8090")
 // Use the client
 
-closeStub()
+// this will close all the client stubs
+client.close()
 ```
 
 To facilitate debugging, [debug mode](#debug-mode) can be enabled for a client.
@@ -380,14 +381,14 @@ const SERVER_ADDR = "localhost:9080"
 const SERVER_CREDENTIALS = grpc.credentials.createInsecure()
 
 // Create instances of DgraphClient.
-const { client, closeStub } = dgraph.Open("dgraph://groot:password@${SERVER_ADDR}")
+const client = dgraph.open("dgraph://groot:password@${SERVER_ADDR}")
 
 // ...
 // Use dgraphClient
 // ...
 
 // Cleanup resources by closing client stubs.
-closeStub()
+client.close()
 ```
 
 ### Debug mode
