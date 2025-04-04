@@ -43,7 +43,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: go.mod
+          go-version-file: dgraph/go.mod
       - name: Build dgraph binary
         run: cd dgraph && make docker-image # also builds dgraph binary
       - name: Move dgraph binary to gopath
