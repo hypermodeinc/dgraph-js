@@ -1,7 +1,7 @@
 {
   "name": "tls",
   "dependencies": {
-    "dgraph-js": "^24.0.0"
+    "dgraph-js": "^24.2.0"
   },
   "scripts": {
     "example": "node index.js",
