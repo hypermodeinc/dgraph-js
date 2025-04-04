@@ -1,5 +1,4 @@
-import * as dgraph from "dgraph-js"
-
+const dgraph = require("dgraph-js")
 // Drop All - discard all data, schema and start from a clean slate.
 async function dropAll(dgraphClient) {
   const op = new dgraph.Operation()

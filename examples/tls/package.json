@@ -1,6 +1,5 @@
 {
   "name": "tls",
-  "type": "module",
   "dependencies": {
     "dgraph-js": "^24.0.0"
   },

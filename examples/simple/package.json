@@ -1,6 +1,5 @@
 {
   "name": "simple",
-  "type": "module",
   "dependencies": {
     "dgraph-js": "^24.1.0",
     "@grpc/grpc-js": "1.8.22"
