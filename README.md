@@ -80,7 +80,7 @@ Using the `open` function with a connection string:
 
 ```js
 // open a connection to an ACL-enabled, non-TLS cluster and login as groot
-const client = dgraph.open("dgraph://groot:password@localhost:8090")
+const client = await dgraph.open("dgraph://groot:password@localhost:8090")
 // Use the client
 
 // this will close all the client stubs
@@ -381,7 +381,7 @@ const SERVER_ADDR = "localhost:9080"
 const SERVER_CREDENTIALS = grpc.credentials.createInsecure()
 
 // Create instances of DgraphClient.
-const client = dgraph.open("dgraph://groot:password@${SERVER_ADDR}")
+const client = await dgraph.open("dgraph://groot:password@${SERVER_ADDR}")
 
 // ...
 // Use dgraphClient

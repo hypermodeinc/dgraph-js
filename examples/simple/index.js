@@ -115,7 +115,7 @@ async function queryData(dgraphClient) {
 }
 
 async function main() {
-  const dgraphClient = dgraph.open()
+  const dgraphClient = await dgraph.open("dgraph://groot:password@localhost:8090")
   await dropAll(dgraphClient)
   await setSchema(dgraphClient)
   await createData(dgraphClient)

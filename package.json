@@ -1,7 +1,6 @@
 {
   "name": "dgraph-js",
   "version": "24.1.0",
-  "type": "module",
   "description": "Official javascript client for Dgraph",
   "license": "Apache-2.0",
   "repository": {
