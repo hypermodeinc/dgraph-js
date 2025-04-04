@@ -1,4 +1,4 @@
-const dgraph = require("dgraph-js")
+import * as dgraph from "dgraph-js"
 
 // Drop All - discard all data, schema and start from a clean slate.
 async function dropAll(dgraphClient) {
@@ -115,7 +115,7 @@ async function queryData(dgraphClient) {
 }
 
 async function main() {
-  const dgraphClient = await dgraph.open("dgraph://groot:password@localhost:8090")
+  const dgraphClient = await dgraph.open("dgraph://groot:password@localhost:9080")
   await dropAll(dgraphClient)
   await setSchema(dgraphClient)
   await createData(dgraphClient)
