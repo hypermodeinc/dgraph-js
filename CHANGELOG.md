@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Calendar Versioning](https://calver.org/) starting v20.03.0.
 
+## [24.2.0] - 2025-04-04
+
+**Added**
+
+- Support for Dgraph connection strings: Introduced the ability to connect using Dgraph connection
+  strings. This enhancement simplifies the configuration process for establishing connections.
+  (#263)
+
+**Removed**
+
+- Removed ESLint from the project. (#264)
+
+**Changed**
+
+- Updated Node.js to version 22. (#262)​
+- Updated @grpc/grpc-js to version 1.12.6. (#260)​
+- Performed minor and patch updates for development dependencies. (#261 #258 #256 #255 #244 #245
+  #246 #247 #248 #249 #238 #240)
+
 ## [24.1.0] - 2024-11-13
 
 **Changed**

@@ -1,7 +1,7 @@
 {
   "name": "simple",
   "dependencies": {
-    "dgraph-js": "^24.1.0",
+    "dgraph-js": "^24.2.0",
     "@grpc/grpc-js": "1.8.22"
   },
   "scripts": {
