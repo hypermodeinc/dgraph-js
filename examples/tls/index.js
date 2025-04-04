@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-
-import * as dgraph from "dgraph-js";
+const dgraph = require("dgraph-js")
 
 // Create a client stub.
 function newClientStub() {
