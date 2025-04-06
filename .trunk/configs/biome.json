@@ -1,0 +1,261 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
+  "files": {
+    "ignoreUnknown": false,
+    "ignore": [".cache/**/*", ".next/**/*", "node_modules/**/*"]
+  },
+  "formatter": {
+    "enabled": true,
+    "useEditorconfig": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80,
+    "attributePosition": "auto",
+    "bracketSpacing": true
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "overrides": [
+    {
+      "include": ["**/*.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": {
+              "level": "error",
+              "options": {
+                "filenameCases": ["PascalCase"]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "include": ["**/*.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": {
+              "level": "error",
+              "options": {
+                "filenameCases": ["camelCase"]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "include": [
+        "**/page.tsx",
+        "**/layout.tsx",
+        "**/loading.tsx",
+        "**/error.tsx",
+        "**/not-found.tsx",
+        "**/default.tsx",
+        "**/route.ts",
+        "**/middleware.ts"
+      ],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": "off"
+          }
+        }
+      }
+    }
+  ],
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "nursery": {
+        "useSortedClasses": {
+          "level": "error",
+          "fix": "safe",
+          "options": {
+            "attributes": ["classList"],
+            "functions": ["clsx", "cva", "tw", "tw.*"]
+          }
+        }
+      },
+      "recommended": false,
+      "a11y": {
+        "noAriaUnsupportedElements": "warn",
+        "noBlankTarget": "error",
+        "useAltText": "warn",
+        "useAriaPropsForRole": "warn",
+        "useValidAriaProps": "warn",
+        "useValidAriaValues": "warn"
+      },
+      "complexity": { "noUselessTypeConstraint": "error" },
+      "correctness": {
+        "noChildrenProp": "error",
+        "noConstAssign": "off",
+        "noGlobalObjectCalls": "off",
+        "noInvalidBuiltinInstantiation": "off",
+        "noInvalidConstructorSuper": "off",
+        "noNewSymbol": "off",
+        "noSetterReturn": "off",
+        "noUndeclaredVariables": "off",
+        "noUnreachable": "off",
+        "noUnreachableSuper": "off",
+        "noUnusedVariables": "error",
+        "useArrayLiterals": "off",
+        "useJsxKeyInIterable": "error",
+        "noUnusedImports": "error"
+      },
+      "security": { "noDangerouslySetInnerHtmlWithChildren": "error" },
+      "style": {
+        "noArguments": "error",
+        "noNamespace": "error",
+        "noVar": "error",
+        "useAsConstAssertion": "error",
+        "useConst": "error",
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": {
+            "filenameCases": ["PascalCase", "camelCase"],
+            "strictCase": true
+          }
+        }
+      },
+      "suspicious": {
+        "noClassAssign": "off",
+        "noCommentText": "error",
+        "noDuplicateClassMembers": "off",
+        "noDuplicateJsxProps": "error",
+        "noDuplicateObjectKeys": "off",
+        "noDuplicateParameters": "off",
+        "noExplicitAny": "error",
+        "noExtraNonNullAssertion": "error",
+        "noFunctionAssign": "off",
+        "noImportAssign": "off",
+        "noMisleadingInstantiator": "error",
+        "noRedeclare": "off",
+        "noUnsafeDeclarationMerging": "error",
+        "noUnsafeNegation": "off",
+        "useGetterReturn": "off",
+        "useNamespaceKeyword": "error"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "single",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "asNeeded",
+      "arrowParentheses": "always",
+      "bracketSameLine": false,
+      "quoteStyle": "single",
+      "attributePosition": "auto",
+      "bracketSpacing": true
+    },
+    "globals": [
+      "ononline",
+      "OffscreenCanvas",
+      "onpointerleave",
+      "onpointerenter",
+      "onemptied",
+      "onmouseenter",
+      "onkeypress",
+      "onloadeddata",
+      "oninvalid",
+      "onmouseup",
+      "onvolumechange",
+      "onpointerout",
+      "onstorage",
+      "onpause",
+      "onkeyup",
+      "onabort",
+      "onanimationstart",
+      "onafterprint",
+      "onblur",
+      "ondurationchange",
+      "onwaiting",
+      "ondeviceorientation",
+      "oncanplaythrough",
+      "onclose",
+      "onbeforeunload",
+      "onanimationend",
+      "onmouseleave",
+      "oncancel",
+      "onseeked",
+      "onpointerover",
+      "ondragleave",
+      "ongotpointercapture",
+      "onloadedmetadata",
+      "onpageshow",
+      "onplay",
+      "onunhandledrejection",
+      "onbeforeprint",
+      "onstalled",
+      "oncontextmenu",
+      "onreset",
+      "onpointercancel",
+      "onsubmit",
+      "ondrag",
+      "onload",
+      "onlostpointercapture",
+      "onsuspend",
+      "ondragstart",
+      "onpagehide",
+      "onmessage",
+      "location",
+      "onoffline",
+      "onappinstalled",
+      "onrejectionhandled",
+      "onunload",
+      "onwheel",
+      "onended",
+      "onmousedown",
+      "onpointerup",
+      "onmouseover",
+      "onkeydown",
+      "onclick",
+      "onfocus",
+      "onscroll",
+      "onresize",
+      "onsearch",
+      "ontoggle",
+      "exports",
+      "oncanplay",
+      "onlanguagechange",
+      "onpointerdown",
+      "ondeviceorientationabsolute",
+      "ondragenter",
+      "onauxclick",
+      "onerror",
+      "onpointermove",
+      "onmousemove",
+      "ondevicemotion",
+      "ondrop",
+      "onhashchange",
+      "onanimationiteration",
+      "ondblclick",
+      "onratechange",
+      "ontransitionend",
+      "ondragend",
+      "onpopstate",
+      "onplaying",
+      "onchange",
+      "onselect",
+      "onbeforeinstallprompt",
+      "onmouseout",
+      "ontimeupdate",
+      "ondragover",
+      "oncuechange",
+      "onprogress",
+      "onloadstart",
+      "onseeking",
+      "oninput",
+      "onmessageerror",
+      "onmousewheel"
+    ]
+  }
+}

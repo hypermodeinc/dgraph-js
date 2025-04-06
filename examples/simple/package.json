@@ -1,11 +1,11 @@
 {
-	"name": "simple",
-	"dependencies": {
-		"dgraph-js": "^24.2.0",
-		"@grpc/grpc-js": "1.8.22"
-	},
-	"scripts": {
-		"example": "node index.js",
-		"clean": "rm -fr node_modules"
-	}
+  "name": "simple",
+  "dependencies": {
+    "dgraph-js": "^24.2.0",
+    "@grpc/grpc-js": "1.8.22"
+  },
+  "scripts": {
+    "example": "node index.js",
+    "clean": "rm -fr node_modules"
+  }
 }

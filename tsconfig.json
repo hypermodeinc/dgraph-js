@@ -1,23 +1,23 @@
 {
-	"compilerOptions": {
-		"module": "commonjs",
-		"target": "es5",
-		"lib": ["es2015"],
-		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true,
-		"alwaysStrict": true,
-		"forceConsistentCasingInFileNames": true,
-		"noFallthroughCasesInSwitch": true,
-		"noImplicitReturns": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"noImplicitAny": false,
-		"noImplicitThis": false,
-		"strictNullChecks": false,
-		"removeComments": false,
-		"declaration": true,
-		"outDir": "lib",
-		"baseUrl": "."
-	},
-	"include": ["src/**/*", "tests/**/*"]
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "lib": ["es2015"],
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "strictNullChecks": false,
+    "removeComments": false,
+    "declaration": true,
+    "outDir": "lib",
+    "baseUrl": "."
+  },
+  "include": ["src/**/*", "tests/**/*"]
 }
