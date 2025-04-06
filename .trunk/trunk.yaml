@@ -25,6 +25,15 @@ lint:
     - linters: [ALL]
       paths:
         - generated/**
+    - linters: [prettier]
+      paths:
+        - "**/*.ts"
+        - "**/*.tsx"
+        - "**/*.js"
+        - "**/*.jsx"
+        - "**/*.css"
+        - "**/*.html"
+        - "**/*.json"
   enabled:
     - trivy@0.59.1
     - actionlint@1.7.7
@@ -33,6 +42,7 @@ lint:
     - markdownlint@0.44.0
     - osv-scanner@1.9.2
     - prettier@3.4.2
+    - biome@1.9.4
     - renovate@39.161.0
     - shellcheck@0.10.0
     - shfmt@3.6.0

@@ -1,50 +1,47 @@
 {
-  "name": "dgraph-js",
-  "version": "24.2.0",
-  "description": "Official javascript client for Dgraph",
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/hypermodeinc/dgraph-js.git"
-  },
-  "bugs": {
-    "url": "https://github.com/hypermodeinc/dgraph-js/issues"
-  },
-  "homepage": "https://github.com/hypermodeinc/dgraph-js#readme",
-  "files": [
-    "lib",
-    "generated"
-  ],
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
-  "scripts": {
-    "rm": "rm -fr node_modules package-lock.json yarn.lock",
-    "build:protos:msgs": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --js_out=import_style=commonjs,binary:./generated/ --ts_out=service=false:./generated/ --proto_path=./protos/ api.proto",
-    "build:protos:srvs": "grpc_tools_node_protoc --grpc_out=grpc_js:./generated/ --proto_path=./protos/ api.proto",
-    "build:protos": "yarn build:protos:msgs && yarn build:protos:srvs",
-    "build": "tsc -p tsconfig.release.json",
-    "build:watch": "tsc -w -p tsconfig.release.json",
-    "lint": "trunk check",
-    "test": "jest --coverage --runInBand",
-    "test:watch": "jest --watch"
-  },
-  "devDependencies": {
-    "@trunkio/launcher": "^1.3.2",
-    "@types/google-protobuf": "^3.15.12",
-    "@types/node": "^22.10.5",
-    "grpc-tools": "^1.12.4",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.2.5",
-    "@types/jest": "^29.2.15",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.20.0"
-  },
-  "dependencies": {
-    "@grpc/grpc-js": "^1.12.5",
-    "@types/url-parse": "^1.4.11",
-    "google-protobuf": "^3.21.4",
-    "@improbable-eng/grpc-web": "^0.15.0",
-    "is-base64": "^1.1.0",
-    "url-parse": "^1.5.10"
-  }
+	"name": "dgraph-js",
+	"version": "24.2.0",
+	"description": "Official javascript client for Dgraph",
+	"license": "Apache-2.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/hypermodeinc/dgraph-js.git"
+	},
+	"bugs": {
+		"url": "https://github.com/hypermodeinc/dgraph-js/issues"
+	},
+	"homepage": "https://github.com/hypermodeinc/dgraph-js#readme",
+	"files": ["lib", "generated"],
+	"main": "lib/index.js",
+	"typings": "lib/index.d.ts",
+	"scripts": {
+		"rm": "rm -fr node_modules package-lock.json yarn.lock",
+		"build:protos:msgs": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --js_out=import_style=commonjs,binary:./generated/ --ts_out=service=false:./generated/ --proto_path=./protos/ api.proto",
+		"build:protos:srvs": "grpc_tools_node_protoc --grpc_out=grpc_js:./generated/ --proto_path=./protos/ api.proto",
+		"build:protos": "yarn build:protos:msgs && yarn build:protos:srvs",
+		"build": "tsc -p tsconfig.release.json",
+		"build:watch": "tsc -w -p tsconfig.release.json",
+		"lint": "trunk check",
+		"test": "jest --coverage --runInBand",
+		"test:watch": "jest --watch"
+	},
+	"devDependencies": {
+		"@trunkio/launcher": "^1.3.2",
+		"@types/google-protobuf": "^3.15.12",
+		"@types/node": "^22.10.5",
+		"grpc-tools": "^1.12.4",
+		"jest": "^29.7.0",
+		"ts-jest": "^29.2.5",
+		"@types/jest": "^29.2.15",
+		"typescript": "^5.7.2",
+		"typescript-eslint": "^8.20.0"
+	},
+	"dependencies": {
+		"@grpc/grpc-js": "^1.12.5",
+		"@types/url-parse": "^1.4.11",
+		"google-protobuf": "^3.21.4",
+		"@improbable-eng/grpc-web": "^0.15.0",
+		"is-base64": "^1.1.0",
+		"url-parse": "^1.5.10"
+	}
 }
