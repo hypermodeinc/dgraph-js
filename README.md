@@ -1,16 +1,11 @@
 # dgraph-js [![npm version](https://img.shields.io/npm/v/dgraph-js.svg?style=flat)](https://www.npmjs.com/package/dgraph-js)
 
-Official Dgraph client implementation for JavaScript, using [gRPC].
-
-**Looking for browser support? Check out [dgraph-js-http].**
-
-[grpc]: https://grpc.io/
-[dgraph-js-http]: https://github.com/hypermodeinc/dgraph-js-http
+Official Dgraph client implementation for JavaScript, using [gRPC](https://grpc.io/).
 
 This client follows the [Dgraph Go client](https://github.com/dgraph-io/dgo) closely.
 
 Before using this client, we highly recommend that you go through
-[dgraph.io/docs](https://dgraph.io/docs), and understand how to run and work with Dgraph.
+[Dgraph Docs](https://docs.hypermode.com/dgraph/introduction), and understand how to run and work with Dgraph.
 
 ## Install
 
