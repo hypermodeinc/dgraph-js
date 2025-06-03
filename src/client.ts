@@ -107,7 +107,7 @@ export class DgraphClient {
     this.clients.forEach((clientStub) => {
       try {
         clientStub.close() // Call the close method on each client stub
-        console.log('Closed client stub successfully')
+        this.debug('Closed client stub successfully.')
       } catch (error) {
         console.error('Failed to close client stub:', error)
       }
