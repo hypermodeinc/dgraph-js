@@ -30,9 +30,9 @@
     "@types/google-protobuf": "^3.15.12",
     "@types/node": "^22.10.5",
     "grpc-tools": "^1.12.4",
-    "jest": "^29.7.0",
+    "jest": "^29.7.0 || ^30.0.0",
     "ts-jest": "^29.2.5",
-    "@types/jest": "^29.2.15",
+    "@types/jest": "^29.2.15 || ^30.0.0",
     "typescript": "^5.7.2"
   },
   "dependencies": {
