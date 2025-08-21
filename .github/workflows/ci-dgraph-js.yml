@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   dgraph-js-tests:
-    runs-on: warp-ubuntu-latest-x64-16x
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
