@@ -23,13 +23,13 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
       - name: Checkout dgraph-js repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: dgraph-js
           repository: hypermodeinc/dgraph-js
           ref: ${{ github.ref }}
       - name: Checkout dgraph repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: dgraph
           repository: hypermodeinc/dgraph
